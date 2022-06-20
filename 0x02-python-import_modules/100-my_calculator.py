@@ -1,32 +1,26 @@
 #!/usr/bin/python3
-
-from sys import argv, exit as sys_exit
-
-from calculator_1 import add, sub, mul, div
-
-
 if __name__ == "__main__":
+    import sys
 
-    ops = {"+": add, "-": sub, "*": mul, "/": div}
-
-    try:
-        a, op, b = argv[1:]
-
-    except ValueError:
+    nargs = len(sys.argv) - 1
+    if nargs != 3:
         print("Usage: ./100-my_calculator.py <a> <operator> <b>")
-        sys_exit(1)
+        sys.exit(1)
 
-    try:
-        print(a, op, b, "=", ops[op](int(a), int(b)))
-
-    except KeyError:
+    op = sys.argv[2]
+    if op != '+' and op != '-' and op != '*' and op != '/':
         print("Unknown operator. Available operators: +, -, * and /")
-        sys_exit(1)
+        sys.exit(1)
 
-    except ValueError:
-        print("Invalid operand. Must be an integer")
-        sys_exit(1)
+    from calculator_1 import add, sub, mul, div
+    a = int(sys.argv[1])
+    b = int(sys.argv[3])
 
-    except ZeroDivisionError:
-        print("Invalid operation. Cannot divide by zero")
-        sys_exit(1)
+    if op == '+':
+        print("{} + {} = {}".format(a, b, add(a, b)))
+    elif op == '-':
+        print("{} - {} = {}".format(a, b, sub(a, b)))
+    elif op == '*':
+        print("{} * {} = {}".format(a, b, mul(a, b)))
+    else:
+        print("{} / {} = {}".format(a, b, div(a, b)))
